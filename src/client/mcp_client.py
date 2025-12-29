@@ -123,9 +123,12 @@ class MCPClient:
         })
     
     async def disconnect(self):
-        if self.websocket and not self.websocket.closed:
-            await self.websocket.close()
-            logger.info("Disconnected from MCP server")
+        if self.websocket:
+            try:
+                await self.websocket.close()
+            except:
+                pass
+        logger.info("Disconnected from MCP server")
     
     async def __aenter__(self):
         await self.connect()

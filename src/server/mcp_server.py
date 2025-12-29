@@ -204,7 +204,7 @@ class MCPServer:
             logger.error(f"Error handling message: {e}")
             await websocket.send(json.dumps({"error": str(e)}))
     
-    async def handle_client(self, websocket: WebSocketServerProtocol, path: str):
+    async def handle_client(self, websocket: WebSocketServerProtocol, path: str = "/"):
         client_id = f"{websocket.remote_address[0]}:{websocket.remote_address[1]}"
         logger.info(f"Client connected: {client_id}")
         
