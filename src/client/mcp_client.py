@@ -72,7 +72,7 @@ class MCPClient:
             logger.error(f"Error receiving messages: {e}")
     
     async def _send_request(self, tool: str, params: Dict[str, Any]) -> Any:
-        if not self.websocket or self.websocket.closed:
+        if not self.websocket:
             raise ConnectionError("Not connected to server")
         
         self.request_counter += 1
@@ -90,7 +90,7 @@ class MCPClient:
         await self.websocket.send(message)
         
         try:
-            result = await asyncio.wait_for(future, timeout=30.0)
+            result = await asyncio.wait_for(future, timeout=60.0)
             return result
         except asyncio.TimeoutError:
             self.pending_requests.pop(request_id, None)
